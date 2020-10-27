@@ -1,4 +1,4 @@
-Role Name
+ansible-arch-setup
 =========
 [![Build Status](https://travis-ci.com/MayNiklas/ansible-arch-setup.svg?branch=main)](https://travis-ci.com/MayNiklas/ansible-arch-setup)
 
