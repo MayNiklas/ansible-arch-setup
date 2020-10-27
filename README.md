@@ -2,7 +2,23 @@ Role Name
 =========
 [![Build Status](https://travis-ci.com/MayNiklas/ansible-arch-setup.svg?branch=main)](https://travis-ci.com/MayNiklas/ansible-arch-setup)
 
-A brief description of the role goes here.
+- has to be executed while running from the Arch install media
+- repartitions the drive
+- creates bootloader partition
+- creates /root partition
+- creates filesystems
+- mounts filesystems
+- ranks arch mirrors
+- runs pacstrap
+- generates fstab
+- sets up local timezone
+- generates locales
+- sets hostname
+- creates new initramfs
+- sets up grub
+- gives passwordless sudo access to wheel group
+- reboots
+
 
 Requirements
 ------------
