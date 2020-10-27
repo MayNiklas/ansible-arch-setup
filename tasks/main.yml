@@ -57,3 +57,22 @@
   register: root_uuid
   changed_when: false
 
+# Mount filesystems
+- name: Mount root filesystem
+  mount:
+    path: /mnt
+    src: UUID={{ root_uuid.stdout }}
+    fstype: ext4
+    state: mounted
+
+- name: Create mountpoint for boot volume
+  file:
+    path: /mnt/boot
+    state: directory
+
+- name: Mount boot filesystem
+  mount:
+    path: /mnt/boot
+    src: UUID={{ boot_uuid.stdout }}
+    fstype: vfat
+    state: mounted
