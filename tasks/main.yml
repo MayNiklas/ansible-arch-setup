@@ -150,3 +150,7 @@
 - name: Enable NetworkManager.service
   command: arch-chroot /mnt systemctl enable NetworkManager.service
 
+# Set up initramfs
+- name: Create new initramfs
+  command: arch-chroot /mnt mkinitcpio -p linux
+
