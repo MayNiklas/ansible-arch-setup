@@ -104,6 +104,12 @@
     - nano
     - networkmanager
 
+- name: Run pacstrap - nvidia & nvidia-settings
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - nvidia
+    - nvidia-settings
+  when: nvidia
 # Generate fstab
 - name: Generate blank fstab
   command: genfstab -U /mnt >> /mnt/etc/fstab
