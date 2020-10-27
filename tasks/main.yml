@@ -185,7 +185,7 @@
 
 - name: Copy over ssh key from current Ansible controller as an authorized key
   copy:
-    src: '{{ lookup("env", "HOME") }}/.ssh/id_rsa.pub.pub'
+    src: '{{ lookup("env", "HOME") }}/.ssh/id_rsa.pub'
     dest: /mnt/home/{{ user_name }}/.ssh/authorized_keys
 
 - name: Set mode, owner, and group on user's authorized_key file
