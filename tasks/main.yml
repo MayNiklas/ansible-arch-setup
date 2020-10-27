@@ -76,3 +76,13 @@
     src: UUID={{ boot_uuid.stdout }}
     fstype: vfat
     state: mounted
+
+# Rank Arch mirrors
+- name: Install the pacman-contrib package (for rankmirrors)
+  pacman:
+    name:
+      - pacman-contrib
+    update_cache: yes
+
+- name: Use rankmirrors to filter the fastest mirrors that support HTTPS
+  shell: curl -s "https://www.archlinux.org/mirrorlist/?country=DE&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
