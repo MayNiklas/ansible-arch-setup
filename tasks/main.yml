@@ -119,3 +119,6 @@
 - name: Set local timezone
   command: arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
+- name: Generate adjtime file
+  command: arch-chroot /mnt hwclock --systohc
+
