@@ -34,3 +34,26 @@
     state: present
 
 # Create filesystems
+- name: Create FAT32 filesystem in boot partition
+  filesystem:
+    dev: '{{ install_drive }}{{ boot_partition_suffix }}'
+    fstype: vfat
+    opts: -F32
+    force: yes
+
+- name: Create ext4 filesystem in root volume
+  filesystem:
+    dev: '{{ install_drive }}{{ root_partition_suffix }}'
+    fstype: ext4
+    force: yes
+
+- name: Get UUID for boot filesystem
+  command: blkid -s UUID -o value '{{ install_drive }}{{ boot_partition_suffix }}'
+  register: boot_uuid
+  changed_when: false
+
+- name: Get UUID for root filesystem
+  command: blkid -s UUID -o value '{{ install_drive }}{{ root_partition_suffix }}'
+  register: root_uuid
+  changed_when: false
+
