@@ -1,5 +1,6 @@
 Role Name
 =========
+[![Build Status](https://travis-ci.com/MayNiklas/ansible-arch-setup.svg?branch=main)](https://travis-ci.com/MayNiklas/ansible-arch-setup)
 
 A brief description of the role goes here.
 
