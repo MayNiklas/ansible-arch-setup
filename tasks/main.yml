@@ -161,3 +161,10 @@
 - name: Create grub config
   command: arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
+# sudo
+- name: Give passwordless sudo access to wheel group
+  copy:
+    content: '%wheel ALL=(ALL) ALL'
+    dest: /mnt/etc/sudoers.d/wheel
+    validate: /usr/sbin/visudo --check --file=%s
+
