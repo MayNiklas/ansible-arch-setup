@@ -140,6 +140,12 @@
 - name: Generate locales
   command: arch-chroot /mnt locale-gen
 
+# Set keyboard layout to german
+- name: Create locale.conf
+  copy:
+    content: "KEYMAP=de"
+    dest: /mnt/etc/vconsole.conf
+
 # Set hostname
 - name: Set hostname
   copy:
@@ -148,7 +154,7 @@
 
 # Enable Network-Manager
 - name: Enable NetworkManager.service
-  command: arch-chroot /mnt systemctl enable NetworkManager.service
+  command: arch-chroot /mnt systemctl enable NetworkManager
 
 # Set up initramfs
 - name: Create new initramfs
