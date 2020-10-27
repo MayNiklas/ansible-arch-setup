@@ -91,3 +91,27 @@
 - name: Run pacstrap
   command: pacstrap /mnt base dhclient dhcpcd efibootmgr grub linux linux-firmware netctl openssh python sudo nano networkmanager intel-ucode mesa amd-ucode nvidia
 
+# Generate fstab
+- name: Generate blank fstab
+  command: genfstab -U /mnt >> /mnt/etc/fstab
+
+- name: Add root volume to fstab
+  mount:
+    fstab: /mnt/etc/fstab
+    path: /
+    src: UUID={{ root_uuid.stdout }}
+    fstype: ext4
+    opts: defaults
+    passno: '1'
+    state: present
+
+- name: Add boot volume to fstab
+  mount:
+    fstab: /mnt/etc/fstab
+    path: /boot
+    src: UUID={{ boot_uuid.stdout }}
+    fstype: vfat
+    opts: defaults
+    passno: '2'
+    state: present
+
