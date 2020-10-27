@@ -154,3 +154,10 @@
 - name: Create new initramfs
   command: arch-chroot /mnt mkinitcpio -p linux
 
+# Set up grub
+- name: Install grub
+  command: arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=archlinux
+
+- name: Create grub config
+  command: arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+
