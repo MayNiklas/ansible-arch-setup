@@ -89,7 +89,20 @@
 
 # Run pacstrap
 - name: Run pacstrap
-  command: pacstrap /mnt base dhclient dhcpcd efibootmgr grub linux linux-firmware openssh python sudo nano networkmanager intel-ucode mesa amd-ucode nvidia
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - base
+    - dhclient
+    - dhcpcd
+    - efibootmgr
+    - grub
+    - linux
+    - linux-firmware
+    - openssh
+    - python
+    - sudo
+    - nano
+    - networkmanager
 
 # Generate fstab
 - name: Generate blank fstab
