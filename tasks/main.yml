@@ -115,6 +115,13 @@
   command: pacstrap /mnt amd-ucode
   when: amd
 
+- name: Run pacstrap - intel-ucode mesa
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - intel-ucode
+    - mesa
+  when: intel
+
 # Generate fstab
 - name: Generate blank fstab
   command: genfstab -U /mnt >> /mnt/etc/fstab
