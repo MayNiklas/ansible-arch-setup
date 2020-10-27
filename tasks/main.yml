@@ -122,6 +122,15 @@
     - mesa
   when: intel
 
+- name: Run pacstrap - xorg-server & xorg-apps
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - xorg
+    - xorg-server
+    - xorg-apps
+    - xorg-xinit
+  when: xorg
+
 # Generate fstab
 - name: Generate blank fstab
   command: genfstab -U /mnt >> /mnt/etc/fstab
