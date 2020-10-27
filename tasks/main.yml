@@ -140,3 +140,9 @@
 - name: Generate locales
   command: arch-chroot /mnt locale-gen
 
+# Set hostname
+- name: Set hostname
+  copy:
+    content: '{{ hostname }}'
+    dest: /mnt/etc/hostname
+
