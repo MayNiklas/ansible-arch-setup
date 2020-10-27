@@ -110,6 +110,11 @@
     - nvidia
     - nvidia-settings
   when: nvidia
+
+- name: Run pacstrap - amd-ucode
+  command: pacstrap /mnt amd-ucode
+  when: amd
+
 # Generate fstab
 - name: Generate blank fstab
   command: genfstab -U /mnt >> /mnt/etc/fstab
