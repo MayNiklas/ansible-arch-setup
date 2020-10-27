@@ -11,7 +11,7 @@
 
 # Repartition install drive
 - name: Wipe install drive and all its partitions
-      command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
+  command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
 
 - name: Create boot partition
   parted:
