@@ -1,2 +1,6 @@
 ---
 # defaults file for ansible-arch-setup
+install_drive: /dev/sda
+boot_partition_suffix: 1
+root_partition_suffix: 2
+hostname: arch-workstation
