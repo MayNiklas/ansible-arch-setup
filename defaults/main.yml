@@ -7,3 +7,8 @@ hostname: arch-workstation
 user_name: nik
 # create a password hash with mkpasswd --method=sha-512
 user_password:
+nvidia: false
+amd: false
+intel: false
+xorg: false
+plasma: false
