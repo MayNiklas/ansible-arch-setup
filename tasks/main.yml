@@ -13,23 +13,23 @@
 - name: Wipe install drive and all its partitions
       command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
 
- - name: Create boot partition
-      parted:
-        device: '{{ install_drive }}'
-        label: gpt
-        number: 1
-        part_end: 512MB
-        name: boot
-        flags: [boot, esp]
-        state: present
+- name: Create boot partition
+  parted:
+    device: '{{ install_drive }}'
+    label: gpt
+    number: 1
+    part_end: 512MB
+    name: boot
+    flags: [boot, esp]
+    state: present
 
-   - name: Create root partition
-      parted:
-        device: '{{ install_drive }}'
-        label: gpt
-        number: 2
-        part_start: 512MB
-        name: root
-        flags: [lvm]
-        state: present
+- name: Create root partition
+  parted:
+    device: '{{ install_drive }}'
+    label: gpt
+    number: 2
+    part_start: 512MB
+    name: root
+    flags: [lvm]
+    state: present
 
