@@ -213,6 +213,7 @@
   loop:
     - arch-chroot /mnt chown root:root /etc/X11/xorg.conf.d/00-keyboard.conf
     - arch-chroot /mnt chmod 644 /etc/X11/xorg.conf.d/00-keyboard.conf
+  when: xorg
 
 # Set hostname
 - name: Set hostname
