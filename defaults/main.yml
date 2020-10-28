@@ -11,5 +11,6 @@ nvidia: false
 amd: false
 intel: false
 bluetooth: false
+sshd: false
 xorg: false
 plasma: false

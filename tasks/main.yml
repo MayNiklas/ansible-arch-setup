@@ -327,6 +327,11 @@
   command: arch-chroot /mnt systemctl enable sddm
   when: plasma
 
+# Enable sddm
+- name: Enable sshd.service
+  command: arch-chroot /mnt systemctl enable sshd
+  when: sshd
+
 # reboot
 - name: Reboot
   reboot:
