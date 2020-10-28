@@ -9,81 +9,7 @@
 - name: Synchronize clock via NTP
   command: timedatectl set-ntp true
 
-# Repartition install drive
-- name: Wipe install drive and all its partitions
-  command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
-
-- name: Create boot partition
-  parted:
-    device: '{{ install_drive }}'
-    label: gpt
-    number: 1
-    part_end: 512MB
-    name: boot
-    flags: [boot, esp]
-    state: present
-  when: efi
-
-- name: Create root partition
-  parted:
-    device: '{{ install_drive }}'
-    label: gpt
-    number: 2
-    part_start: 512MB
-    name: root
-    flags: [lvm]
-    state: present
-  when: efi
-
-# Create filesystems
-- name: Create FAT32 filesystem in boot partition
-  filesystem:
-    dev: '{{ install_drive }}{{ boot_partition_suffix }}'
-    fstype: vfat
-    opts: -F32
-    force: yes
-  when: efi
-
-- name: Create ext4 filesystem in root volume
-  filesystem:
-    dev: '{{ install_drive }}{{ root_partition_suffix }}'
-    fstype: ext4
-    force: yes
-  when: efi
-
-- name: Get UUID for boot filesystem
-  command: blkid -s UUID -o value '{{ install_drive }}{{ boot_partition_suffix }}'
-  register: boot_uuid
-  changed_when: false
-  when: efi
-
-- name: Get UUID for root filesystem
-  command: blkid -s UUID -o value '{{ install_drive }}{{ root_partition_suffix }}'
-  register: root_uuid
-  changed_when: false
-  when: efi
-
-# Mount filesystems
-- name: Mount root filesystem
-  mount:
-    path: /mnt
-    src: UUID={{ root_uuid.stdout }}
-    fstype: ext4
-    state: mounted
-  when: efi
-
-- name: Create mountpoint for boot volume
-  file:
-    path: /mnt/boot
-    state: directory
-  when: efi
-
-- name: Mount boot filesystem
-  mount:
-    path: /mnt/boot
-    src: UUID={{ boot_uuid.stdout }}
-    fstype: vfat
-    state: mounted
+- include_tasks: "partitions-efi.yml"
   when: efi
 
 # Rank Arch mirrors
@@ -158,30 +84,7 @@
 
 # Generate fstab
 - name: Generate blank fstab
-  command: genfstab -U /mnt >> /mnt/etc/fstab
-  when: efi
-
-- name: Add root volume to fstab
-  mount:
-    fstab: /mnt/etc/fstab
-    path: /
-    src: UUID={{ root_uuid.stdout }}
-    fstype: ext4
-    opts: defaults
-    passno: '1'
-    state: present
-  when: efi
-
-- name: Add boot volume to fstab
-  mount:
-    fstab: /mnt/etc/fstab
-    path: /boot
-    src: UUID={{ boot_uuid.stdout }}
-    fstype: vfat
-    opts: defaults
-    passno: '2'
-    state: present
-  when: efi
+  command: genfstab -Up /mnt > /mnt/etc/fstab
 
 # Set local timezone
 - name: Set local timezone
@@ -242,7 +145,7 @@
   command: arch-chroot /mnt mkinitcpio -p linux
 
 # Set up grub
-- name: Install grub
+- name: efi - Install grub
   command: arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=archlinux
   when: efi
 
