@@ -20,7 +20,7 @@
     update_cache: yes
 
 - name: Use rankmirrors to filter the fastest mirrors that support HTTPS
-  shell: curl -s "https://www.archlinux.org/mirrorlist/?country=DE&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
+  shell: curl -s "https://www.archlinux.org/mirrorlist/?country=DE&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 20 - > /etc/pacman.d/mirrorlist
 
 # Run pacstrap
 - name: Run pacstrap
