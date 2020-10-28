@@ -104,6 +104,7 @@
     - sudo
     - nano
     - networkmanager
+    - git
 
 - name: Run pacstrap - nvidia & nvidia-settings
   command: pacstrap /mnt {{ item }}
