@@ -22,6 +22,7 @@
     name: boot
     flags: [boot, esp]
     state: present
+  when: efi
 
 - name: Create root partition
   parted:
@@ -32,6 +33,7 @@
     name: root
     flags: [lvm]
     state: present
+  when: efi
 
 # Create filesystems
 - name: Create FAT32 filesystem in boot partition
@@ -40,22 +42,26 @@
     fstype: vfat
     opts: -F32
     force: yes
+  when: efi
 
 - name: Create ext4 filesystem in root volume
   filesystem:
     dev: '{{ install_drive }}{{ root_partition_suffix }}'
     fstype: ext4
     force: yes
+  when: efi
 
 - name: Get UUID for boot filesystem
   command: blkid -s UUID -o value '{{ install_drive }}{{ boot_partition_suffix }}'
   register: boot_uuid
   changed_when: false
+  when: efi
 
 - name: Get UUID for root filesystem
   command: blkid -s UUID -o value '{{ install_drive }}{{ root_partition_suffix }}'
   register: root_uuid
   changed_when: false
+  when: efi
 
 # Mount filesystems
 - name: Mount root filesystem
@@ -64,11 +70,13 @@
     src: UUID={{ root_uuid.stdout }}
     fstype: ext4
     state: mounted
+  when: efi
 
 - name: Create mountpoint for boot volume
   file:
     path: /mnt/boot
     state: directory
+  when: efi
 
 - name: Mount boot filesystem
   mount:
@@ -76,6 +84,7 @@
     src: UUID={{ boot_uuid.stdout }}
     fstype: vfat
     state: mounted
+  when: efi
 
 # Rank Arch mirrors
 - name: Install the pacman-contrib package (for rankmirrors)
@@ -150,6 +159,7 @@
 # Generate fstab
 - name: Generate blank fstab
   command: genfstab -U /mnt >> /mnt/etc/fstab
+  when: efi
 
 - name: Add root volume to fstab
   mount:
@@ -160,6 +170,7 @@
     opts: defaults
     passno: '1'
     state: present
+  when: efi
 
 - name: Add boot volume to fstab
   mount:
@@ -170,6 +181,7 @@
     opts: defaults
     passno: '2'
     state: present
+  when: efi
 
 # Set local timezone
 - name: Set local timezone
@@ -232,6 +244,7 @@
 # Set up grub
 - name: Install grub
   command: arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=archlinux
+  when: efi
 
 - name: Create grub config
   command: arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
