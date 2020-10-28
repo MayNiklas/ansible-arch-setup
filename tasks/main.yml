@@ -124,6 +124,12 @@
     - mesa
   when: intel
 
+  - name: Run pacstrap - bluetooth
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - bluez
+    - bluez-utils
+
 - name: Run pacstrap - xorg-server & xorg-apps
   command: pacstrap /mnt {{ item }}
   loop:
