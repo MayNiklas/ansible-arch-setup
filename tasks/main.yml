@@ -269,6 +269,26 @@
     - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.xinitrc
   when: plasma
 
+# keyserver ubuntu
+- name: Create user's ssh directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /mnt/home/{{ user_name }}/.gnupg
+    - /mnt/home/{{ user_name }}/.gnupg/gpg
+
+- name: keyserver hkp://keyserver.ubuntu.com
+  copy:
+    content: "keyserver hkp://keyserver.ubuntu.com"
+    dest: /mnt/home/{{ user_name }}/.gnupg/gpg/gpg.conf
+
+- name: keyserver hkp://keyserver.ubuntu.com
+  command: "{{ item }}"
+  loop:
+    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg
+    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg/gpg
+    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg/gpg/gpg.conf
 
 # Enable Network-Manager
 - name: Enable sddm.service
