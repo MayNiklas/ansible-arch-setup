@@ -270,26 +270,23 @@
     - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.xinitrc
   when: plasma
 
-# keyserver ubuntu
-- name: Create user's ssh directory
+# Change Keyserver
+- name: Create user's .gnupg directory
   file:
-    path: "{{ item }}"
+    path: /mnt/home/{{ user_name }}/.gnupg
     state: directory
-  loop:
-    - /mnt/home/{{ user_name }}/.gnupg
-    - /mnt/home/{{ user_name }}/.gnupg/gpg
 
-- name: keyserver hkp://keyserver.ubuntu.com
+- name: keyserver hkps://keyserver.ubuntu.com
   copy:
-    content: "keyserver hkp://keyserver.ubuntu.com"
-    dest: /mnt/home/{{ user_name }}/.gnupg/gpg/gpg.conf
+    content: "keyserver hkps://keyserver.ubuntu.com"
+    dest: /mnt/home/{{ user_name }}/.gnupg/gpg.conf
 
-- name: keyserver hkp://keyserver.ubuntu.com
+- name: keyserver hkps://keyserver.ubuntu.com
   command: "{{ item }}"
   loop:
-    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg
-    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg/gpg
-    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg/gpg/gpg.conf
+    - arch-chroot /mnt chown -R {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg
+    - arch-chroot /mnt chmod 600 /home/{{ user_name }}/.gnupg/gpg.conf
+    - arch-chroot /mnt chmod 700 /home/{{ user_name }}/.gnupg
 
 # Enable sddm
 - name: Enable sddm.service
