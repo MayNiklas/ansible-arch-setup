@@ -10,5 +10,6 @@ user_password:
 nvidia: false
 amd: false
 intel: false
+bluetooth: false
 xorg: false
 plasma: false
