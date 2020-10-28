@@ -269,6 +269,12 @@
     - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.xinitrc
   when: plasma
 
+
+# Enable Network-Manager
+- name: Enable sddm.service
+  command: arch-chroot /mnt systemctl enable sddm
+  when: plasma
+
 # reboot
 - name: Reboot
   reboot:
