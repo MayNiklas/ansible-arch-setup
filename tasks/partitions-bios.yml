@@ -1,0 +1,28 @@
+---
+
+# Repartition install drive
+- name: Wipe install drive and all its partitions
+  command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
+
+- name: Create root partition
+  parted:
+    device: '{{ install_drive }}'
+    label: msdos
+    part_type: primary
+    number: 1
+    flags: [boot]
+    state: present
+
+- name: Create FAT32 filesystem in root partition
+  filesystem:
+    dev: '{{ install_drive }}{{ bios_partition_suffix }}'
+    fstype: ext4
+    force: yes
+
+# Mount filesystems
+- name: Mount root filesystem
+  mount:
+    path: /mnt
+    src: '{{ install_drive }}{{ bios_partition_suffix }}'
+    fstype: ext4
+    state: mounted
