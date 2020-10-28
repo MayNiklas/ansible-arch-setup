@@ -124,7 +124,7 @@
     - mesa
   when: intel
 
-  - name: Run pacstrap - bluetooth
+- name: Run pacstrap - bluetooth
   command: pacstrap /mnt {{ item }}
   loop:
     - bluez
