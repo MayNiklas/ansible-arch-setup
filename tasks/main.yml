@@ -290,7 +290,7 @@
     - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg/gpg
     - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg/gpg/gpg.conf
 
-# Enable Network-Manager
+# Enable sddm
 - name: Enable sddm.service
   command: arch-chroot /mnt systemctl enable sddm
   when: plasma
