@@ -195,6 +195,17 @@
     content: "KEYMAP=de"
     dest: /mnt/etc/vconsole.conf
 
+- name: Write 00-keyboard.conf
+  template:
+    src: 00-keyboard.j2
+    dest: /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+
+- name: Sets permissions of 00-keyboard.conf
+  command: "{{ item }}"
+  loop:
+    - arch-chroot /mnt chown root:root /etc/X11/xorg.conf.d/00-keyboard.conf
+    - arch-chroot /mnt chmod 644 /etc/X11/xorg.conf.d/00-keyboard.conf
+
 # Set hostname
 - name: Set hostname
   copy:
