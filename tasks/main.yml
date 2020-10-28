@@ -92,6 +92,7 @@
   command: pacstrap /mnt {{ item }}
   loop:
     - base
+    - base-devel
     - dhclient
     - dhcpcd
     - efibootmgr
