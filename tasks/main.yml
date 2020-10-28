@@ -129,6 +129,7 @@
   loop:
     - bluez
     - bluez-utils
+  when: bluetooth
 
 - name: Run pacstrap - xorg-server & xorg-apps
   command: pacstrap /mnt {{ item }}
@@ -304,6 +305,20 @@
     - arch-chroot /mnt chown -R {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg
     - arch-chroot /mnt chmod 600 /home/{{ user_name }}/.gnupg/gpg.conf
     - arch-chroot /mnt chmod 700 /home/{{ user_name }}/.gnupg
+
+# bluetooth working in login screen
+- name: bluetooth AutoEnable=true
+  become: yes
+  lineinfile:
+    dest: /mnt/etc/bluetooth/main.conf
+    regexp: '#?AutoEnable='
+    line: 'AutoEnable=true'
+  when: bluetooth
+
+# enable bluetooth
+- name: Enable bluetooth
+  command: arch-chroot /mnt systemctl enable bluetooth
+  when: bluetooth
 
 # Enable sddm
 - name: Enable sddm.service
