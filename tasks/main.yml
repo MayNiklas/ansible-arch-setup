@@ -34,7 +34,6 @@
     - base-devel
     - dhclient
     - dhcpcd
-    - efibootmgr
     - grub
     - linux
     - linux-firmware
@@ -45,6 +44,12 @@
     - networkmanager
     - git
     - ansible
+
+- name: Run pacstrap - efibootmgr
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - efibootmgr
+  when: efi
 
 - name: Run pacstrap - nvidia & nvidia-settings
   command: pacstrap /mnt {{ item }}
