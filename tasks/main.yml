@@ -157,25 +157,7 @@
 - include_tasks: "kde-plasma.yml"
   when: plasma
 
-# Change Keyserver
-- name: Create user's .gnupg directory
-  file:
-    path: /mnt/home/{{ user_name }}/.gnupg
-    state: directory
-
-- name: keyserver hkps://keyserver.ubuntu.com
-  copy:
-    content: "keyserver hkps://keyserver.ubuntu.com"
-    dest: /mnt/home/{{ user_name }}/.gnupg/gpg.conf
-
-- name: keyserver hkps://keyserver.ubuntu.com
-  command: "{{ item }}"
-  loop:
-    - arch-chroot /mnt chown -R {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.gnupg
-    - arch-chroot /mnt chmod 600 /home/{{ user_name }}/.gnupg/gpg.conf
-    - arch-chroot /mnt chmod 700 /home/{{ user_name }}/.gnupg
-
-
+- include_tasks: "keyserver.yml"
 
 
 
