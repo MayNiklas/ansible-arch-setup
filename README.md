@@ -1,6 +1,9 @@
 ansible-arch-setup
 =========
 [![Build Status](https://travis-ci.com/MayNiklas/ansible-arch-setup.svg?branch=main)](https://travis-ci.com/MayNiklas/ansible-arch-setup)
+[![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=lines)](https://github.com/XAMPPRocky/tokei)
+[![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=code)](https://github.com/XAMPPRocky/tokei)
+[![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=files)](https://github.com/XAMPPRocky/tokei)
 
 - has to be executed while running from the Arch install media
 - repartitions the drive
