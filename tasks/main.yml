@@ -44,6 +44,7 @@
     - nano
     - networkmanager
     - git
+    - ansible
 
 - name: Run pacstrap - nvidia & nvidia-settings
   command: pacstrap /mnt {{ item }}
