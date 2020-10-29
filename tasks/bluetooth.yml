@@ -1,0 +1,19 @@
+---
+
+- name: Run pacstrap - bluetooth
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - bluez
+    - bluez-utils
+
+# bluetooth working in login screen
+- name: bluetooth AutoEnable=true
+  become: yes
+  lineinfile:
+    dest: /mnt/etc/bluetooth/main.conf
+    regexp: '#?AutoEnable='
+    line: 'AutoEnable=true'
+
+# enable bluetooth
+- name: Enable bluetooth
+  command: arch-chroot /mnt systemctl enable bluetooth
