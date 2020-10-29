@@ -1,0 +1,11 @@
+---
+# Enable services
+- name: Enable services
+  command: arch-chroot /mnt systemctl enable {{ item }}
+  loop:
+    - NetworkManager
+
+- name: Enable sshd
+  command: arch-chroot /mnt systemctl enable {{ item }}
+  loop:
+    - sshd

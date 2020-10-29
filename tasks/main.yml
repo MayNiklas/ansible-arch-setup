@@ -81,10 +81,6 @@
     content: '{{ hostname }}'
     dest: /mnt/etc/hostname
 
-# Enable Network-Manager
-- name: Enable NetworkManager.service
-  command: arch-chroot /mnt systemctl enable NetworkManager
-
 
 # sudo
 - name: Give passwordless sudo access to wheel group
@@ -128,6 +124,7 @@
 
 - include_tasks: "keyserver.yml"
 
+- include_tasks: "services.yml"
 
 
 # reboot
