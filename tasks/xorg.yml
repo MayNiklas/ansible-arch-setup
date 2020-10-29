@@ -1,0 +1,20 @@
+---
+
+- name: Run pacstrap - xorg
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - xorg
+    - xorg-server
+    - xorg-apps
+    - xorg-xinit
+
+- name: Write 00-keyboard.conf
+  template:
+    src: 00-keyboard.j2
+    dest: /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+
+- name: Sets permissions of 00-keyboard.conf
+  command: "{{ item }}"
+  loop:
+    - arch-chroot /mnt chown root:root /etc/X11/xorg.conf.d/00-keyboard.conf
+    - arch-chroot /mnt chmod 644 /etc/X11/xorg.conf.d/00-keyboard.conf

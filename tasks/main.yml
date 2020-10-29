@@ -45,35 +45,11 @@
     - git
     - ansible
 
-
-
-- name: Run pacstrap - xorg-server & xorg-apps
-  command: pacstrap /mnt {{ item }}
-  loop:
-    - xorg
-    - xorg-server
-    - xorg-apps
-    - xorg-xinit
-  when: xorg
-
 - include_tasks: "drivers.yml"
 
 # Generate fstab
 - name: Generate blank fstab
   command: genfstab -Up /mnt > /mnt/etc/fstab
-
-- name: Write 00-keyboard.conf
-  template:
-    src: 00-keyboard.j2
-    dest: /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
-  when: xorg
-
-- name: Sets permissions of 00-keyboard.conf
-  command: "{{ item }}"
-  loop:
-    - arch-chroot /mnt chown root:root /etc/X11/xorg.conf.d/00-keyboard.conf
-    - arch-chroot /mnt chmod 644 /etc/X11/xorg.conf.d/00-keyboard.conf
-  when: xorg
 
 # Set hostname
 - name: Set hostname
@@ -84,9 +60,12 @@
 - include_tasks: "bluetooth.yml"
   when: bluetooth
 
+- include_tasks: "locales.yml"
 
 - include_tasks: "user.yml"
 
+- include_tasks: "xorg.yml"
+  when: xorg
 
 - include_tasks: "kde-plasma.yml"
   when: plasma
@@ -95,6 +74,7 @@
 
 - include_tasks: "services.yml"
 
+- include_tasks: "bootloader.yml"
 
 # reboot
 - name: Reboot
