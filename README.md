@@ -13,12 +13,17 @@ ansible-arch-setup
 - mounts filesystems
 - ranks arch mirrors
 - runs pacstrap
+- installs drivers
 - generates fstab
 - sets up local timezone
 - generates locales
 - sets hostname
 - creates new initramfs
 - sets up grub
+- creates user including ssh key
+- creates keyboard language files
+- installs xorg
+- installs kde plasma
 - gives passwordless sudo access to wheel group
 - reboots
 
