@@ -56,12 +56,6 @@
     - xorg-xinit
   when: xorg
 
-- name: Run pacstrap - plasma & kde-applications
-  command: pacstrap /mnt {{ item }}
-  loop: 
-    - plasma
-    - kde-applications
-  when: plasma
 - include_tasks: "drivers.yml"
 
 # Generate fstab
@@ -158,25 +152,9 @@
     - chmod 0600 /home/{{ user_name }}/.ssh/authorized_keys
     - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh/authorized_keys
 
-- name: Preparing .xinitrc for KDE plasma
-  copy:
-    content: "export DESKTOP_SESSION=plasma"
-    dest: /mnt/home/{{ user_name }}/.xinitrc
-  when: plasma
 
-- name: Preparing .xinitrc for KDE plasma
-  lineinfile:
-    dest: /mnt/home/{{ user_name }}/.xinitrc
-    insertafter: EOF
-    line: "exec startplasma-x11"
-    state: present
-    create: yes
-  when: plasma
 
-- name: Preparing .xinitrc for KDE plasma
-  command: "{{ item }}"
-  loop:
-    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.xinitrc
+- include_tasks: "kde-plasma.yml"
   when: plasma
 
 # Change Keyserver
@@ -199,15 +177,7 @@
 
 
 
-# Enable sddm
-- name: Enable sddm.service
-  command: arch-chroot /mnt systemctl enable sddm
-  when: plasma
 
-# Enable sddm
-- name: Enable sshd.service
-  command: arch-chroot /mnt systemctl enable sshd
-  when: sshd
 
 # reboot
 - name: Reboot

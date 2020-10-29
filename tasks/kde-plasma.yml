@@ -1,0 +1,29 @@
+---
+
+- name: Run pacstrap - plasma & kde-applications
+  command: pacstrap /mnt {{ item }}
+  loop: 
+    - plasma
+    - kde-applications
+
+- name: Preparing .xinitrc for KDE plasma
+  copy:
+    content: "export DESKTOP_SESSION=plasma"
+    dest: /mnt/home/{{ user_name }}/.xinitrc
+
+- name: Preparing .xinitrc for KDE plasma
+  lineinfile:
+    dest: /mnt/home/{{ user_name }}/.xinitrc
+    insertafter: EOF
+    line: "exec startplasma-x11"
+    state: present
+    create: yes
+
+- name: Preparing .xinitrc for KDE plasma
+  command: "{{ item }}"
+  loop:
+    - arch-chroot /mnt chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.xinitrc
+
+# Enable sddm
+- name: Enable sddm.service
+  command: arch-chroot /mnt systemctl enable sddm
