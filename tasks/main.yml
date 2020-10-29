@@ -45,29 +45,6 @@
     - git
     - ansible
 
-- name: Run pacstrap - efibootmgr
-  command: pacstrap /mnt {{ item }}
-  loop:
-    - efibootmgr
-  when: efi
-
-- name: Run pacstrap - nvidia & nvidia-settings
-  command: pacstrap /mnt {{ item }}
-  loop:
-    - nvidia
-    - nvidia-settings
-  when: nvidia
-
-- name: Run pacstrap - amd-ucode
-  command: pacstrap /mnt amd-ucode
-  when: amd
-
-- name: Run pacstrap - intel-ucode mesa
-  command: pacstrap /mnt {{ item }}
-  loop:
-    - intel-ucode
-    - mesa
-  when: intel
 
 
 - name: Run pacstrap - xorg-server & xorg-apps
@@ -85,6 +62,7 @@
     - plasma
     - kde-applications
   when: plasma
+- include_tasks: "drivers.yml"
 
 # Generate fstab
 - name: Generate blank fstab
