@@ -1,0 +1,17 @@
+---
+
+# Set up initramfs
+- name: Create new initramfs
+  command: arch-chroot /mnt mkinitcpio -p linux
+
+# Set up grub
+- name: bios - Install grub
+  command: arch-chroot /mnt grub-install {{ install_drive }}
+  when: bios
+
+- name: efi - Install grub
+  command: arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=archlinux
+  when: efi
+
+- name: Create grub config
+  command: arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
