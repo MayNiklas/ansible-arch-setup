@@ -5,6 +5,8 @@ ansible-arch-setup
 [![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=code)](https://github.com/XAMPPRocky/tokei)
 [![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=files)](https://github.com/XAMPPRocky/tokei)
 
+### Role information
+
 - has to be executed while running from the Arch install media
 - repartitions the drive
 - creates bootloader partition
@@ -27,6 +29,30 @@ ansible-arch-setup
 - gives passwordless sudo access to wheel group
 - reboots
 
+### Role Variables:
+To be set in group_vars OR host_vars of your playbook
+
+| Variable       | Description                                  | Default |
+|----------------|----------------------------------------------|---------|
+|`user_name`| name of the user being created | `nik` |
+|`user_password`| hashed pw of the user being created | `<empty>` |
+|`hostname`| hostname that should be set | `arch-workstation`|
+|`install_drive`| path of the drive being used | `/dev/sda` |
+|`bios_partition_suffix`| only relevant when changing the whole task by yourself | `1` |
+|`boot_partition_suffix`| efi partion has the partion number 1 | `1` |
+|`root_partition_suffix`| root partion has the partion number 2 | `2` |
+|`bios`| set to true when you want a bios install -> conflicts with efi | `false` |
+|`efi`| set to true when you want a efi install -> conflicts with bios | `false` |
+|`intel`| set to true when you want to install intel-ucode & mesa | `false` |
+|`amd`| set to true when you want to install amd-ucode | `false` |
+|`nvidia: 1`| set to true when you want to install nvidia & nvidia-settings | `false` |
+|`bluetooth: 1`| set to true when you want to configure bluetooth | `false` |
+|`sshd: 1`| set to true when you want a running sshd server | `false` |
+|`xorg`| set to true when you want to install xorg packages | `false` |
+|`plasma`| set to true when you want to install plasma & boot into it | `false` |
+
+### playbook
+This role is used by my [ansible-arch-install](https://github.com/MayNiklas/ansible-arch-install.git) playbook. I would suggest, using it as a starting point!
 
 Requirements
 ------------
