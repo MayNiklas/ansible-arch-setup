@@ -5,6 +5,14 @@ ansible-arch-setup
 [![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=code)](https://github.com/XAMPPRocky/tokei)
 [![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=files)](https://github.com/XAMPPRocky/tokei)
 
+### To do
+
+- encrypted root partition
+- swap partition for hibernate
+- migrate non essential parts of the install into [ansible-arch](https://github.com/MayNiklas/ansible-arch.git)
+- dual boot with windows
+- driver installation triggered via ansible facts (?)
+
 ### Role information
 
 - has to be executed while running from the Arch install media
