@@ -5,8 +5,10 @@ ansible-arch-setup
 [![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=code)](https://github.com/XAMPPRocky/tokei)
 [![Lines Of Code](https://tokei.rs/b1/github/MayNiklas/ansible-arch-setup?category=files)](https://github.com/XAMPPRocky/tokei)
 
-### To do
+### Intro
+This ansible role is being used for installing Arch Linux on a new computer. Please make sure, that you understand the underlaying roles and what they do before following my quickstart guide you can find within the fitting playbook. I am NOT responsible to anything that might happen by executing my ansible roles. As we are installing a new operating system, [ansible-arch-setup](https://github.com/MayNiklas/ansible-arch-setup.git) is formatting your drive before the install. This leads into dataloss. Don't forget to correctly backup your device!
 
+### To do
 - encrypted root partition
 - swap partition for hibernate
 - migrate non essential parts of the install into [ansible-arch](https://github.com/MayNiklas/ansible-arch.git)
