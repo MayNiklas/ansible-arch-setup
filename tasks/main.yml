@@ -35,6 +35,7 @@
     - dhclient
     - dhcpcd
     - grub
+    - os-prober
     - linux
     - linux-firmware
     - openssh
