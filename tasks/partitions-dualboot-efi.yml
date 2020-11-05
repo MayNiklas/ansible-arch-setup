@@ -1,0 +1,82 @@
+---
+
+- parted:
+    device: '{{ install_drive }}'
+    unit: MiB
+    register: sda_info
+
+- name: Create boot partition
+  parted:
+    device: '{{ install_drive }}'
+    label: gpt
+    number: '{{ boot_partition_number }}'
+    part_start: "{{ sda_info.partitions.3.end }}MiB"
+    part_end: "{{ sda_info.partitions.3.end+512 }}MiB"
+    name: boot
+    flags: [boot, esp]
+    state: present
+
+- parted:
+    device: '{{ install_drive }}'
+    unit: MiB
+    register: sda_info
+
+- name: Create root partition
+  parted:
+    device: '{{ install_drive }}'
+    label: gpt
+    number: '{{ root_partition_number }}'
+    part_start: "{{ sda_info.partitions.4.end }}MiB"
+    name: root
+    flags: [lvm]
+    state: present
+
+#Create filesystems
+- name: Create FAT32 filesystem in boot partition
+  filesystem:
+    dev: '{{ install_drive }}{{ boot_partition_suffix }}'
+    fstype: vfat
+    opts: -F32
+    force: yes
+
+- name: Create ext4 filesystem in root volume
+  filesystem:
+    dev: '{{ install_drive }}{{ root_partition_suffix }}'
+    fstype: ext4
+    force: yes
+
+# Mount filesystems
+- name: Mount root filesystem
+  mount:
+    path: /mnt
+    src: '{{ install_drive }}{{ root_partition_suffix }}'
+    fstype: ext4
+    state: mounted
+
+- name: Create mountpoint for boot volume
+  file:
+    path: /mnt/boot
+    state: directory
+
+- name: Mount boot filesystem
+  mount:
+    path: /mnt/boot
+    src: '{{ install_drive }}{{ boot_partition_suffix }}'
+    fstype: vfat
+    state: mounted
+
+# Unsure if really needed 
+# - name: Create mountpoint for windows bootloader
+#   file:
+#     path: /mnt/efi-win
+#     state: directory
+
+# - name: Mount windows bootloader
+#   mount:
+#     path: /mnt/efi-win
+#     src: '{{ install_drive }}{{ win_bootloader }}'
+#     fstype: vfat
+
+- name:  Setting booleans using complex argument style
+  set_fact:
+    efi: true
