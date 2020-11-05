@@ -16,6 +16,9 @@
 - include_tasks: "partitions-efi.yml"
   when: efi
 
+- include_tasks: "partitions-dualboot-efi.yml"
+  when: dual_boot_efi
+
 # Rank Arch mirrors
 - name: Install the pacman-contrib package (for rankmirrors)
   pacman:
