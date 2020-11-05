@@ -10,6 +10,11 @@ user_name: nik
 user_password:
 efi: false
 bios: false
+# when dual booting, make sure boot_partition_number &
+# root_partition_number are correctly set.
+# For example 5 & 6 when Windows uses 4 partitions
+win_bootloader: /dev/sda1
+dual_boot_efi: false
 nvidia: false
 amd: false
 intel: false
