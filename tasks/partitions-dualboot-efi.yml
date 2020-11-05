@@ -3,16 +3,18 @@
 - parted:
     device: '{{ install_drive }}'
     unit: MiB
-  register: sda_info
+  register: drive_info
 
-# "{{ sda_info.partitions.3.end }}MiB" -> Only when partion 5 & 6 are used for the arch install!
+- set_fact:
+    last_used_partition: "{{ drive_info.partitions | last }}"
+
 - name: Create boot partition
   parted:
     device: '{{ install_drive }}'
     label: gpt
-    number: '{{ boot_partition_number }}'
-    part_start: "{{ sda_info.partitions.3.end }}MiB"
-    part_end: "{{ sda_info.partitions.3.end+512 }}MiB"
+    number: '{{ last_used_partition.num+1 }}'
+    part_start: "{{ last_used_partition.end }}MiB"
+    part_end: "{{ last_used_partition.end+512 }}MiB"
     name: boot
     flags: [boot, esp]
     state: present
@@ -20,15 +22,17 @@
 - parted:
     device: '{{ install_drive }}'
     unit: MiB
-  register: sda_info
-  
-# "{{ sda_info.partitions.4.end }}MiB" -> Only when partion 5 & 6 are used for the arch install!
+  register: drive_info
+
+- set_fact:
+    last_used_partition: "{{ drive_info.partitions | last }}"
+
 - name: Create root partition
   parted:
     device: '{{ install_drive }}'
     label: gpt
-    number: '{{ root_partition_number }}'
-    part_start: "{{ sda_info.partitions.4.end }}MiB"
+    number: '{{ last_used_partition.num+1 }}'
+    part_start: "{{ last_used_partition.end }}MiB"
     name: root
     flags: [lvm]
     state: present
