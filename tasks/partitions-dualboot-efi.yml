@@ -19,20 +19,12 @@
     flags: [boot, esp]
     state: present
 
-- parted:
-    device: '{{ install_drive }}'
-    unit: MiB
-  register: drive_info
-
-- set_fact:
-    last_used_partition: "{{ drive_info.partitions | last }}"
-
 - name: Create root partition
   parted:
     device: '{{ install_drive }}'
     label: gpt
-    number: '{{ last_used_partition.num+1 }}'
-    part_start: "{{ last_used_partition.end }}MiB"
+    number: '{{ last_used_partition.num+2 }}'
+    part_start: "{{ last_used_partition.end+512 }}MiB"
     name: root
     flags: [lvm]
     state: present
