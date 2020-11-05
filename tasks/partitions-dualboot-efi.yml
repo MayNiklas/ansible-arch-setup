@@ -5,6 +5,7 @@
     unit: MiB
   register: sda_info
 
+# "{{ sda_info.partitions.3.end }}MiB" -> Only when partion 5 & 6 are used for the arch install!
 - name: Create boot partition
   parted:
     device: '{{ install_drive }}'
@@ -20,7 +21,8 @@
     device: '{{ install_drive }}'
     unit: MiB
   register: sda_info
-
+  
+# "{{ sda_info.partitions.4.end }}MiB" -> Only when partion 5 & 6 are used for the arch install!
 - name: Create root partition
   parted:
     device: '{{ install_drive }}'
@@ -64,18 +66,6 @@
     src: '{{ install_drive }}{{ boot_partition_suffix }}'
     fstype: vfat
     state: mounted
-
-# Unsure if really needed 
-# - name: Create mountpoint for windows bootloader
-#   file:
-#     path: /mnt/efi-win
-#     state: directory
-
-# - name: Mount windows bootloader
-#   mount:
-#     path: /mnt/efi-win
-#     src: '{{ install_drive }}{{ win_bootloader }}'
-#     fstype: vfat
 
 - name:  Setting booleans using complex argument style
   set_fact:
