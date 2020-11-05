@@ -3,7 +3,7 @@
 - parted:
     device: '{{ install_drive }}'
     unit: MiB
-    register: sda_info
+  register: sda_info
 
 - name: Create boot partition
   parted:
@@ -19,7 +19,7 @@
 - parted:
     device: '{{ install_drive }}'
     unit: MiB
-    register: sda_info
+  register: sda_info
 
 - name: Create root partition
   parted:
