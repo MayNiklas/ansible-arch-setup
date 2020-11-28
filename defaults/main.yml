@@ -2,7 +2,11 @@
 # defaults file for ansible-arch-setup
 install_drive: /dev/sda
 boot_partition_suffix: 1
+swap_partition_suffix: 2
+# make sure to set the root partition to 3 when activating swap!
 root_partition_suffix: 2
+swap: false
+swap_size: 0
 hostname: arch-workstation
 user_name: nik
 # create a password hash with mkpasswd --method=sha-512
@@ -11,10 +15,12 @@ user_password:
 efi: false
 dual_boot_efi: false
 bios: false
+# drivers
 nvidia: false
 amd: false
 intel: false
 bluetooth: false
+# services
 sshd: false
 xorg: false
 plasma: false

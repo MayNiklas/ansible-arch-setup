@@ -14,12 +14,39 @@
     flags: [boot, esp]
     state: present
 
+- parted:
+    device: '{{ install_drive }}'
+    unit: MiB
+  register: drive_info
+
+- set_fact:
+    last_used_partition: "{{ drive_info.partitions | last }}"
+
+- name: Create swap partition
+  parted:
+    device: '{{ install_drive }}'
+    label: gpt
+    number: '{{ last_used_partition.num+1 }}'
+    part_start: 512MB
+    part_end: "{{ 512+swap_size }}MB"
+    name: swap
+    state: present
+  when: swap
+
+- parted:
+    device: '{{ install_drive }}'
+    unit: MiB
+  register: drive_info
+
+- set_fact:
+    last_used_partition: "{{ drive_info.partitions | last }}"
+
 - name: Create root partition
   parted:
     device: '{{ install_drive }}'
     label: gpt
-    number: 2
-    part_start: 512MB
+    number: '{{ last_used_partition.num+1 }}'
+    part_start: "{{ 512+swap_size }}MB"
     name: root
     flags: [lvm]
     state: present
@@ -31,6 +58,13 @@
     fstype: vfat
     opts: -F32
     force: yes
+
+- name: Create swap
+  filesystem:
+    dev: '{{ install_drive }}{{ swap_partition_suffix }}'
+    fstype: swap
+    force: yes
+  when: swap
 
 - name: Create ext4 filesystem in root volume
   filesystem:
@@ -57,3 +91,7 @@
     src: '{{ install_drive }}{{ boot_partition_suffix }}'
     fstype: vfat
     state: mounted
+
+- name: Enable swap
+  command: swapon "{{ install_drive }}{{ swap_partition_suffix }}"
+  when: swap
