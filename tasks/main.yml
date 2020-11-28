@@ -52,8 +52,14 @@
 - include_tasks: "drivers.yml"
 
 # Generate fstab
-- name: Generate blank fstab
-  command: genfstab -Up /mnt > /mnt/etc/fstab
+- name: Create variable fstab
+  command: "genfstab -U /mnt"
+  register: fstab
+
+- name: Create fstab
+  copy:
+    content: "{{fstab.stdout}}"
+    dest: /mnt/etc/fstab
 
 # Set hostname
 - name: Set hostname
