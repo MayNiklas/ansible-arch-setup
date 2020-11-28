@@ -9,3 +9,4 @@
   command: arch-chroot /mnt systemctl enable {{ item }}
   loop:
     - sshd
+  when: sshd
