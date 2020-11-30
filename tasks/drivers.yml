@@ -23,3 +23,9 @@
     - intel-ucode
     - mesa
   when: intel
+
+- name: Run pacstrap - open-vm-tools
+  command: pacstrap /mnt {{ item }}
+  loop:
+    - open-vm-tools
+  when: vmware

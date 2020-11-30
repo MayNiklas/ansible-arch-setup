@@ -19,6 +19,7 @@ bios: false
 nvidia: false
 amd: false
 intel: false
+vmware: false
 bluetooth: false
 # services
 sshd: false

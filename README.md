@@ -55,6 +55,7 @@ To be set in group_vars OR host_vars of your playbook
 |`efi`| set to true when you want a efi install -> conflicts with bios | `false` |
 |`intel`| set to true when you want to install intel-ucode & mesa | `false` |
 |`amd`| set to true when you want to install amd-ucode | `false` |
+|`vmware`| set to true when installing within a vm | `false` |
 |`nvidia: 1`| set to true when you want to install nvidia & nvidia-settings | `false` |
 |`bluetooth: 1`| set to true when you want to configure bluetooth | `false` |
 |`sshd: 1`| set to true when you want a running sshd server | `false` |
